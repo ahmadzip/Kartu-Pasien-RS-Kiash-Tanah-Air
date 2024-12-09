@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import InputField from "@/app/_components/InputField";
 import SelectField from "@/app/_components/SelectField";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -67,7 +68,12 @@ export default function Home() {
 
       // Nama Pasien
       ctx.font = "bold 42px 'Belleza', Arial";
-      ctx.fillText(formData.nama1.toUpperCase(), 147, 325);
+      const namaText = formData.nama1.toUpperCase();
+      const namaWidth = ctx.measureText(namaText).width;
+      if (namaWidth > canvas.width - 147 - 90) {
+        toast.error("Nama terlalu panjang, silahkan singkat nama pasien");
+      }
+      ctx.fillText(namaText, 147, 325);
 
       // Informasi Detail dengan font yang lebih kecil
       ctx.font = "bold 24px 'Belleza', Arial";
@@ -94,6 +100,16 @@ export default function Home() {
   };
 
   const handleDownload = () => {
+    if (
+      formData.nama1.trim() === "" ||
+      formData.dob.trim() === "" ||
+      formData.idPasien.trim() === "" ||
+      formData.golonganDarah.trim() === "" ||
+      formData.sex.trim() === ""
+    ) {
+      toast.error("Semua data pasien harus diisi");
+      return;
+    }
     const link = document.createElement("a");
     const currentDate = new Date().toISOString().slice(0, 10);
     link.download = `kartu_pasien_${formData.nama1.replace(
@@ -105,12 +121,22 @@ export default function Home() {
   };
 
   const handleCopyToClipboard = async () => {
+    if (
+      formData.nama1.trim() === "" ||
+      formData.dob.trim() === "" ||
+      formData.idPasien.trim() === "" ||
+      formData.golonganDarah.trim() === "" ||
+      formData.sex.trim() === ""
+    ) {
+      toast.error("Semua data pasien harus diisi");
+      return;
+    }
     if (!canvasRef.current) return;
     canvasRef.current.toBlob(async (blob) => {
       if (!blob) return;
       const item = new ClipboardItem({ "image/png": blob });
       await navigator.clipboard.write([item]);
-      alert("Image copied to clipboard!");
+      toast.success("Kartu pasien berhasil disalin ke clipboard");
     });
   };
 
@@ -121,7 +147,7 @@ export default function Home() {
           {/* Form Section */}
           <div className="bg-white p-8 rounded-xl shadow-lg">
             <h1 className="text-3xl font-bold text-gray-800 mb-8">
-              Kartu Pasien RS Kiash Tanah Air
+              Kartu Pasien RS Kisah Tanah Air
             </h1>
 
             <div className="space-y-6">
@@ -198,6 +224,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
