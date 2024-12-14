@@ -36,6 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     generatePreview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
   const formatDate = (dateString: string) => {
