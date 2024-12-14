@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
+import DarkModeToggle from "./_components/DarkMode";
+import ChangelogPopup from "./_components/ChangelogPopup";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,10 +30,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <main className="flex-grow">{children}</main>
-        <Toaster />
-        <footer className="text-center py-4 sticky bottom-0">
-          Made with ❤️ by Juned Saputra
+        <header className="p-4 dark:bg-[#19222C] dark:text-white">
+          <DarkModeToggle />
+        </header>
+        <main className="flex-grow">
+          {children}
+          <ChangelogPopup />
+        </main>
+        <footer className="text-center py-4 sticky bottom-0 dark:bg-[#19222C] dark:text-white">
+          Made with ❤️ by Juned Hamilton
         </footer>
       </body>
     </html>

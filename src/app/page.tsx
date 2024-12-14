@@ -2,7 +2,8 @@
 import { useState, useRef, useEffect } from "react";
 import InputField from "@/app/_components/InputField";
 import SelectField from "@/app/_components/SelectField";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import "react-tooltip/dist/react-tooltip.css";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -77,7 +78,7 @@ export default function Home() {
 
       // Informasi Detail dengan font yang lebih kecil
       ctx.font = "bold 24px 'Belleza', Arial";
-      ctx.fillStyle = "#444444";
+      ctx.fillStyle = "#787878";
 
       // DOB dengan format yang diperbarui
       const formattedDate = formatDate(formData.dob);
@@ -141,12 +142,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4 dark:bg-[#19222C] dark:text-gray-200">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Form Section */}
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">
+          <div className="bg-white p-8 rounded-xl shadow-lg dark:bg-[#222E3C]">
+            <h1 className="text-3xl font-bold text-gray-800 mb-8 dark:text-gray-200">
               Kartu Pasien RS Kisah Tanah Air
             </h1>
 
@@ -159,6 +160,7 @@ export default function Home() {
                 placeholder="Masukkan nama lengkap"
               />
               <InputField
+                tooltip="Input MM/DD/YYYY Otomatis Jadi DD/MM/YYYY"
                 label="Tanggal Lahir"
                 name="dob"
                 value={formData.dob}
@@ -208,8 +210,8 @@ export default function Home() {
           </div>
 
           {/* Preview Section */}
-          <div className="bg-white p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          <div className="bg-white p-8 rounded-xl shadow-lg dark:bg-[#222E3C]">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 dark:text-gray-200">
               Preview Kartu
             </h2>
             <canvas ref={canvasRef} className="hidden" />
@@ -224,7 +226,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }
