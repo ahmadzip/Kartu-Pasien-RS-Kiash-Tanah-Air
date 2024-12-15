@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import InputField from "@/app/_components/InputField";
 import SelectField from "@/app/_components/SelectField";
 import toast from "react-hot-toast";
+import { FaCopy } from "react-icons/fa";
 import "react-tooltip/dist/react-tooltip.css";
 
 export default function Home() {
@@ -45,7 +46,7 @@ export default function Home() {
     if (isNaN(date.getTime())) return "";
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
+    const year = date.getFullYear().toString().slice(-2);
     return `${day}/${month}/${year}`;
   };
 
@@ -142,6 +143,26 @@ export default function Home() {
     });
   };
 
+  const handleCopyName = () => {
+    navigator.clipboard.writeText(
+      "``` NAMA PASIEN: " + formData.nama1 + " ```"
+    );
+    toast.success("Nama berhasil disalin ke clipboard");
+  };
+
+  const handleCopyDate = (date: string) => {
+    navigator.clipboard.writeText(date);
+    toast.success(`Tanggal ${date} berhasil disalin ke clipboard`);
+  };
+
+  const currentDate = formatDate(new Date().toISOString());
+  const date7Days = formatDate(
+    new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+  );
+  const date30Days = formatDate(
+    new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+  );
+
   return (
     <div className="min-h-screen py-12 px-4 dark:bg-[#19222C] dark:text-gray-200">
       <div className="max-w-6xl mx-auto">
@@ -193,19 +214,28 @@ export default function Home() {
                   { value: "female", label: "Perempuan" },
                 ]}
               />
-              <div className="flex space-x-4">
+              <div className="flex flex-col space-y-4">
                 <button
                   onClick={handleDownload}
-                  className="flex-1 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
+                  className="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
                 >
-                  Download Kartu
+                  Download Image
                 </button>
-                <button
-                  onClick={handleCopyToClipboard}
-                  className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                >
-                  Copy to Clipboard
-                </button>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={handleCopyToClipboard}
+                    className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Copy Image
+                  </button>
+                  <button
+                    className="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors"
+                    data-tip="Copy Name"
+                    onClick={handleCopyName}
+                  >
+                    Copy Name For Discord
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -224,6 +254,47 @@ export default function Home() {
                 className="w-full rounded-lg shadow-md"
               />
             )}
+            {/* Date Copy Section */}
+            <div className="mt-8">
+              <h2 className="text-xl font-bold text-gray-800 mb-4 dark:text-gray-200">
+                Tanggal
+              </h2>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Tanggal Sekarang: {currentDate} - {currentDate}
+                  </span>
+                  <FaCopy
+                    onClick={() =>
+                      handleCopyDate(`${currentDate} - ${currentDate}`)
+                    }
+                    className="text-blue-600 cursor-pointer hover:text-blue-700"
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Tanggal 7 Hari Kedepan: {currentDate} - {date7Days}
+                  </span>
+                  <FaCopy
+                    onClick={() =>
+                      handleCopyDate(`${currentDate} - ${date7Days}`)
+                    }
+                    className="text-blue-600 cursor-pointer hover:text-blue-700"
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-700 dark:text-gray-300">
+                    Tanggal 30 Hari Kedepan: {currentDate} - {date30Days}
+                  </span>
+                  <FaCopy
+                    onClick={() =>
+                      handleCopyDate(`${currentDate} - ${date30Days}`)
+                    }
+                    className="text-blue-600 cursor-pointer hover:text-blue-700"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

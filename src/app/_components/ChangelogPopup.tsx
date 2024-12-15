@@ -3,13 +3,18 @@ import React, { useState, useEffect } from "react";
 
 const ChangelogPopup: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const lastUpdate = "16/12/24"; // Current update date in dd/mm/yy format
 
   useEffect(() => {
     const dontShowAgain = localStorage.getItem("dontShowChangelog");
-    if (!dontShowAgain) {
+    const lastUpdateDate = localStorage.getItem("lastUpdateDate");
+
+    if (!dontShowAgain || lastUpdateDate !== lastUpdate) {
       setIsVisible(true);
+      localStorage.setItem("lastUpdateDate", lastUpdate);
+      localStorage.removeItem("dontShowChangelog");
     }
-  }, []);
+  }, []); // Removed lastUpdate from dependency array
 
   const handleClose = () => {
     setIsVisible(false);
@@ -29,11 +34,26 @@ const ChangelogPopup: React.FC = () => {
           Changelog
         </h2>
         <ul className="mb-4 list-disc list-inside">
-          <li>Add Dark Mode</li>
-          <li>Fix Responsive</li>
-          <li>Fix Posisi Nama Pada Kartu Pasien</li>
-          <li>Add Tips</li>
+          <li>
+            <strong>[15/12/24]</strong> Add Dark Mode
+          </li>
+          <li>
+            <strong>[15/12/24]</strong> Fix Responsive
+          </li>
+          <li>
+            <strong>[15/12/24]</strong> Fix Posisi Nama Pada Kartu Pasien
+          </li>
+          <li>
+            <strong>[15/12/24]</strong> Add Tips
+          </li>
+          <li>
+            <strong>[16/12/24]</strong> Add Button Copy Image and Name
+          </li>
+          <li>
+            <strong>[16/12/24]</strong> Add Date Copy
+          </li>
         </ul>
+
         <div className="flex justify-end">
           <button
             onClick={handleClose}
