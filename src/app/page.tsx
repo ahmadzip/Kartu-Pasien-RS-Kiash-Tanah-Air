@@ -210,8 +210,8 @@ export default function Home() {
                 onChange={handleInputChange}
                 options={[
                   { value: "", label: "PILIH JENIS KELAMIN" },
-                  { value: "male", label: "LAKI-LAKI" },
-                  { value: "female", label: "PEREMPUAN" },
+                  { value: "MALE", label: "LAKI-LAKI" },
+                  { value: "FEMALE", label: "PEREMPUAN" },
                 ]}
               />
               <div className="flex flex-col space-y-4">
