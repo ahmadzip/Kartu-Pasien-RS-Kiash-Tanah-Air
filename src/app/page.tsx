@@ -94,7 +94,7 @@ export default function Home() {
 
       // Sex dengan format yang diperbarui
       const formattedSex =
-        formData.sex === "male" ? "M" : formData.sex === "female" ? "F" : "";
+        formData.sex === "MALE" ? "M" : formData.sex === "FEMALE" ? "F" : "";
       ctx.fillText(formattedSex, 713, 530);
 
       setImageUrl(canvas.toDataURL("image/png", 1.0));
