@@ -23,7 +23,7 @@ export default function Home() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value.toUpperCase(),
     }));
   };
 
@@ -46,7 +46,7 @@ export default function Home() {
     if (isNaN(date.getTime())) return "";
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear().toString().slice(-2);
+    const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
 
@@ -179,7 +179,7 @@ export default function Home() {
                 name="nama1"
                 value={formData.nama1}
                 onChange={handleInputChange}
-                placeholder="Masukkan nama lengkap"
+                placeholder="MASUKKAN NAMA LENGKAP"
               />
               <InputField
                 tooltip="Input MM/DD/YYYY Otomatis Jadi DD/MM/YYYY"
@@ -194,14 +194,14 @@ export default function Home() {
                 name="idPasien"
                 value={formData.idPasien}
                 onChange={handleInputChange}
-                placeholder="Masukkan ID Pasien"
+                placeholder="MASUKKAN ID PASIEN"
               />
               <InputField
                 label="Golongan Darah"
                 name="golonganDarah"
                 value={formData.golonganDarah}
                 onChange={handleBloodTypeChange}
-                placeholder="Masukkan Golongan Darah"
+                placeholder="MASUKKAN GOLONGAN DARAH"
               />
               <SelectField
                 label="Jenis Kelamin"
@@ -209,9 +209,9 @@ export default function Home() {
                 value={formData.sex}
                 onChange={handleInputChange}
                 options={[
-                  { value: "", label: "Pilih Jenis Kelamin" },
-                  { value: "male", label: "Laki-laki" },
-                  { value: "female", label: "Perempuan" },
+                  { value: "", label: "PILIH JENIS KELAMIN" },
+                  { value: "male", label: "LAKI-LAKI" },
+                  { value: "female", label: "PEREMPUAN" },
                 ]}
               />
               <div className="flex flex-col space-y-4">
