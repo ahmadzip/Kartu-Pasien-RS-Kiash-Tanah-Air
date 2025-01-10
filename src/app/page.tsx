@@ -102,7 +102,7 @@ export default function Home() {
     img.src = "/background.png";
   };
 
-  const handleDownload = () => {
+  const handleCopyDirectLink = () => {
     if (
       formData.nama1.trim() === "" ||
       formData.dob.trim() === "" ||
@@ -113,16 +113,15 @@ export default function Home() {
       toast.error("Semua data pasien harus diisi");
       return;
     }
-    const link = document.createElement("a");
-    const currentDate = new Date().toISOString().slice(0, 10);
-    link.download = `kartu_pasien_${formData.nama1.replace(
-      /\s+/g,
-      "_"
-    )}_${currentDate}.png`;
-    link.href = imageUrl;
-    link.click();
+    const url = new URL("https://rskita.vercel.app/api/show");
+    url.searchParams.append("nama1", formData.nama1);
+    url.searchParams.append("dob", formData.dob);
+    url.searchParams.append("idPasien", formData.idPasien);
+    url.searchParams.append("golonganDarah", formData.golonganDarah);
+    url.searchParams.append("sex", formData.sex);
+    navigator.clipboard.writeText(url.toString());
+    toast.success("Link berhasil disalin ke clipboard");
   };
-
   const handleCopyToClipboard = async () => {
     if (
       formData.nama1.trim() === "" ||
@@ -216,10 +215,10 @@ export default function Home() {
               />
               <div className="flex flex-col space-y-4">
                 <button
-                  onClick={handleDownload}
+                  onClick={handleCopyDirectLink}
                   className="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
                 >
-                  Download Image
+                  Copy Url Image
                 </button>
                 <div className="flex space-x-4">
                   <button
@@ -262,12 +261,10 @@ export default function Home() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-gray-700 dark:text-gray-300">
-                    Tanggal Sekarang: {currentDate} - {currentDate}
+                    Tanggal Sekarang: {currentDate}
                   </span>
                   <FaCopy
-                    onClick={() =>
-                      handleCopyDate(`${currentDate} - ${currentDate}`)
-                    }
+                    onClick={() => handleCopyDate(`${currentDate}`)}
                     className="text-blue-600 cursor-pointer hover:text-blue-700"
                   />
                 </div>
