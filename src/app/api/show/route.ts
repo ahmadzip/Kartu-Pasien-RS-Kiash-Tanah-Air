@@ -17,10 +17,10 @@ const formatDate = (dateString: string) => {
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
-    const nama1 = searchParams.get("nama1");
+    const nama1 = searchParams.get("nama1") || searchParams.get("nama");
     const dob = searchParams.get("dob");
-    const idPasien = searchParams.get("idPasien");
-    const golonganDarah = searchParams.get("golonganDarah");
+    const idPasien = searchParams.get("idPasien") || searchParams.get("patient_id");
+    const golonganDarah = searchParams.get("golonganDarah") || searchParams.get("blood_type");
     const sex = searchParams.get("sex");
 
     if (!nama1 || !dob || !idPasien || !golonganDarah || !sex) {
@@ -34,13 +34,9 @@ export async function GET(request: NextRequest) {
     const img = await loadImage(imagePath);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    // Konfigurasi style untuk nama
-    ctx.fillStyle = "#333333";
-    ctx.textAlign = "left";
-
     // Nama Pasien
     ctx.font = "bold 42px 'Belleza'";
-    const namaText = nama1.toUpperCase();
+    const namaText = decodeURIComponent(nama1).toUpperCase();
     const namaWidth = ctx.measureText(namaText).width;
     if (namaWidth > canvas.width - 147 - 90) {
         return new NextResponse("Nama terlalu panjang, silahkan singkat nama pasien", { status: 400 });
@@ -52,17 +48,17 @@ export async function GET(request: NextRequest) {
     ctx.fillStyle = "#787878";
 
     // DOB dengan format yang diperbarui
-    const formattedDate = formatDate(dob);
+    const formattedDate = formatDate(decodeURIComponent(dob));
     ctx.fillText(formattedDate, 457, 450);
 
     // ID Pasien dengan padding nol
-    ctx.fillText(idPasien, 457, 530);
+    ctx.fillText(decodeURIComponent(idPasien), 457, 530);
 
     // Golongan Darah (diubah menjadi uppercase)
-    ctx.fillText(golonganDarah.toUpperCase(), 713, 450);
+    ctx.fillText(decodeURIComponent(golonganDarah).toUpperCase(), 713, 450);
 
     // Sex dengan format yang diperbarui
-    const formattedSex = sex.toUpperCase() === "MALE" ? "M" : sex.toUpperCase() === "FEMALE" ? "F" : "";
+    const formattedSex = decodeURIComponent(sex).toUpperCase() === "MALE" ? "M" : decodeURIComponent(sex).toUpperCase() === "FEMALE" ? "F" : "";
     ctx.fillText(formattedSex, 713, 530);
 
     const buffer = canvas.toBuffer("image/png");

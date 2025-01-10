@@ -102,6 +102,31 @@ export default function Home() {
     img.src = "/background.png";
   };
 
+  const handleForDiscord = () => {
+    if (
+      formData.nama1.trim() === "" ||
+      formData.dob.trim() === "" ||
+      formData.idPasien.trim() === "" ||
+      formData.golonganDarah.trim() === "" ||
+      formData.sex.trim() === ""
+    ) {
+      toast.error("Semua data pasien harus diisi");
+      return;
+    }
+    const url = new URL("https://rskita.vercel.app/api/show");
+    url.searchParams.append("nama", formData.nama1);
+    url.searchParams.append("dob", formData.dob);
+    url.searchParams.append("patient_id", formData.idPasien);
+    url.searchParams.append("blood_type", formData.golonganDarah);
+    url.searchParams.append("sex", formData.sex);
+    const text =
+      "``` NAMA PASIEN: " +
+      formData.nama1 +
+      " ```\n" +
+      `[${formData.nama1}](${url.toString()})`;
+    navigator.clipboard.writeText(text);
+    toast.success("Link berhasil disalin ke clipboard");
+  };
   const handleCopyDirectLink = () => {
     if (
       formData.nama1.trim() === "" ||
@@ -114,40 +139,41 @@ export default function Home() {
       return;
     }
     const url = new URL("https://rskita.vercel.app/api/show");
-    url.searchParams.append("nama1", formData.nama1);
+    url.searchParams.append("nama", formData.nama1);
     url.searchParams.append("dob", formData.dob);
-    url.searchParams.append("idPasien", formData.idPasien);
-    url.searchParams.append("golonganDarah", formData.golonganDarah);
+    url.searchParams.append("patient_id", formData.idPasien);
+    url.searchParams.append("blood_type", formData.golonganDarah);
     url.searchParams.append("sex", formData.sex);
     navigator.clipboard.writeText(url.toString());
     toast.success("Link berhasil disalin ke clipboard");
   };
-  const handleCopyToClipboard = async () => {
-    if (
-      formData.nama1.trim() === "" ||
-      formData.dob.trim() === "" ||
-      formData.idPasien.trim() === "" ||
-      formData.golonganDarah.trim() === "" ||
-      formData.sex.trim() === ""
-    ) {
-      toast.error("Semua data pasien harus diisi");
-      return;
-    }
-    if (!canvasRef.current) return;
-    canvasRef.current.toBlob(async (blob) => {
-      if (!blob) return;
-      const item = new ClipboardItem({ "image/png": blob });
-      await navigator.clipboard.write([item]);
-      toast.success("Kartu pasien berhasil disalin ke clipboard");
-    });
-  };
 
-  const handleCopyName = () => {
-    navigator.clipboard.writeText(
-      "``` NAMA PASIEN: " + formData.nama1 + " ```"
-    );
-    toast.success("Nama berhasil disalin ke clipboard");
-  };
+  // const handleCopyToClipboard = async () => {
+  //   if (
+  //     formData.nama1.trim() === "" ||
+  //     formData.dob.trim() === "" ||
+  //     formData.idPasien.trim() === "" ||
+  //     formData.golonganDarah.trim() === "" ||
+  //     formData.sex.trim() === ""
+  //   ) {
+  //     toast.error("Semua data pasien harus diisi");
+  //     return;
+  //   }
+  //   if (!canvasRef.current) return;
+  //   canvasRef.current.toBlob(async (blob) => {
+  //     if (!blob) return;
+  //     const item = new ClipboardItem({ "image/png": blob });
+  //     await navigator.clipboard.write([item]);
+  //     toast.success("Kartu pasien berhasil disalin ke clipboard");
+  //   });
+  // };
+
+  // const handleCopyName = () => {
+  //   navigator.clipboard.writeText(
+  //     "``` NAMA PASIEN: " + formData.nama1 + " ```"
+  //   );
+  //   toast.success("Nama berhasil disalin ke clipboard");
+  // };
 
   const handleCopyDate = (date: string) => {
     navigator.clipboard.writeText(date);
@@ -214,25 +240,19 @@ export default function Home() {
                 ]}
               />
               <div className="flex flex-col space-y-4">
-                <button
-                  onClick={handleCopyDirectLink}
-                  className="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
-                >
-                  Copy Url Image
-                </button>
                 <div className="flex space-x-4">
                   <button
-                    onClick={handleCopyToClipboard}
-                    className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                    onClick={handleForDiscord}
+                    className="flex-1 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
                   >
-                    Copy Image
+                    Copy For Discord
                   </button>
                   <button
                     className="flex-1 bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors"
                     data-tip="Copy Name"
-                    onClick={handleCopyName}
+                    onClick={handleCopyDirectLink}
                   >
-                    Copy Name For Discord
+                    Copy Direct Link
                   </button>
                 </div>
               </div>
