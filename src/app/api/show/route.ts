@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createCanvas, loadImage } from "canvas";
+import { createCanvas, loadImage, registerFont } from "canvas";
 import path from "path";
+
+const fontPath = path.join(process.cwd(), "public", "fonts", "Belleza-Regular.ttf");
+registerFont(fontPath, { family: "Belleza" });
 
 const formatDate = (dateString: string) => {
     if (!dateString) return "";
@@ -36,7 +39,7 @@ export async function GET(request: NextRequest) {
     ctx.textAlign = "left";
 
     // Nama Pasien
-    ctx.font = "bold 42px 'Belleza', Arial";
+    ctx.font = "bold 42px 'Belleza'";
     const namaText = nama1.toUpperCase();
     const namaWidth = ctx.measureText(namaText).width;
     if (namaWidth > canvas.width - 147 - 90) {
@@ -45,7 +48,7 @@ export async function GET(request: NextRequest) {
     ctx.fillText(namaText, 147, 325);
 
     // Informasi Detail dengan font yang lebih kecil
-    ctx.font = "bold 24px 'Belleza', Arial";
+    ctx.font = "bold 24px 'Belleza'";
     ctx.fillStyle = "#787878";
 
     // DOB dengan format yang diperbarui
