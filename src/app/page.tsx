@@ -119,11 +119,7 @@ export default function Home() {
     url.searchParams.append("patient_id", formData.idPasien);
     url.searchParams.append("blood_type", formData.golonganDarah);
     url.searchParams.append("sex", formData.sex);
-    const text =
-      "``` NAMA PASIEN: " +
-      formData.nama1 +
-      " ```\n" +
-      `[${formData.nama1}](${url.toString()})`;
+    const text = `NAMA PASIEN: [${formData.nama1}](${url.toString()})`;
     navigator.clipboard.writeText(text);
     toast.success("Link berhasil disalin ke clipboard");
   };
@@ -323,7 +319,7 @@ export default function Home() {
               allow="fullscreen"
               allowFullScreen
               height="100%"
-              src="https://streamable.com/e/7ipj97?"
+              src="https://www.youtube.com/embed/zSZfHOBrbyo?si=XjX5zIEMoEyMFsr3"
               width="100%"
               className="absolute top-0 left-0 w-full h-full border-none"
             ></iframe>
