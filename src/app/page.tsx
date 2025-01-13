@@ -314,6 +314,21 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <div className="mt-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 dark:text-gray-200 text-center">
+            Tutorial Video
+          </h1>
+          <div className="relative w-full pb-[56.25%]">
+            <iframe
+              allow="fullscreen"
+              allowFullScreen
+              height="100%"
+              src="https://streamable.com/e/7ipj97?"
+              width="100%"
+              className="absolute top-0 left-0 w-full h-full border-none"
+            ></iframe>
+          </div>
+        </div>
       </div>
     </div>
   );
